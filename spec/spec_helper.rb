@@ -1,12 +1,17 @@
+# add spec folder to root lookup paths
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+# add lib to root lookup paths
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
 require "bundler/setup"
-require "action_items"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 
   # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
+  # config.disable_monkey_patching!
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
