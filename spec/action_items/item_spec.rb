@@ -4,8 +4,7 @@ require 'action_items/item'
 module ActionItems
     describe Item do
         describe 'constructor' do
-
-            # ensures that the default param for
+            # ensure that the default param for
             # due_date and description are nil
             describe 'with no params' do
 
@@ -22,7 +21,7 @@ module ActionItems
                 end
             end
 
-            # ensures that the default param for
+            # ensure that the default param for
             # due_date and description aren't empty
             describe 'with params' do
                 let(:description) { 'the best action item ever!' }
@@ -45,6 +44,17 @@ module ActionItems
                     new_item = Item.new(due_date: due_date, description: description)
                     expect(new_item.due_date).to eq(due_date)
                     expect(new_item.description).to eq(description)
+                end
+            end
+
+            # testing the status completed for an item
+            describe 'Completed' do
+                context 'When testing the completed method' do
+                    # ensure that the default boolean is false
+                    it 'has false as default' do
+                        new_item = Item.new
+                        expect(new_item.completed).to be(false)
+                    end
                 end
             end
         end
