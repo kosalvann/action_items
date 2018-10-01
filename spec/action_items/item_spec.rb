@@ -142,6 +142,100 @@ module ActionItems
                     end
                 end
             end
+
+            describe '#valid?' do
+                let(:new_item) {Item.new }
+                context 'when description, due_date, and completed_date are valid' do
+                    it 'is true' do
+                        allow(new_item).to receive(:description_valid?) { true }
+                        allow(new_item).to receive(:due_date_valid?) { true }
+                        allow(new_item).to receive(:completed_date_valid?) { true }
+
+                        expect(new_item.valid?).to be(true)
+                    end
+                end
+
+                context 'when description is invalid but due_date and completed_date are valid' do
+                    it 'is false' do
+                        allow(new_item).to receive(:description_valid?) { false }
+                        allow(new_item).to receive(:due_date_valid?) { true }
+                        allow(new_item).to receive(:completed_date_valid?) { true }
+
+                        expect(new_item.valid?).to be(false)
+                    end
+                end
+
+                context 'when description and due_date is valid but completed_date is invalid' do
+                    it 'is false' do
+                        allow(new_item).to receive(:description_valid?) { true }
+                        allow(new_item).to receive(:due_date_valid?) { true }
+                        allow(new_item).to receive(:completed_date_valid?) { false }
+
+                        expect(new_item.valid?).to be(false)
+                    end
+                end
+
+                context 'when description and completed_date is valid but due_date is invalid' do
+                    it 'is false' do
+                        allow(new_item).to receive(:description_valid?) { true }
+                        allow(new_item).to receive(:due_date_valid?) { false }
+                        allow(new_item).to receive(:completed_date_valid?) { true }
+
+                        expect(new_item.valid?).to be(false)
+                    end
+                end
+            end
+
+            describe '#description_valid?' do
+                let(:description) { 'something' }
+                context 'when description is not empty' do
+                    it 'is true' do
+                        new_item = Item.new(description: description)
+                        expect(new_item.description_valid?).to be(true)
+                    end
+                end
+
+                context 'when description is empty' do
+                    it 'is false' do
+                        new_item = Item.new(description: nil)
+                        expect(new_item.description_valid?).to be(false)
+                    end
+                end
+            end
+
+            describe '#completed_date_valid?' do
+                let(:completed_date) { '01/01/2018' }
+                context 'when completed_date is not empty' do
+                    it 'is true' do
+                        new_item = Item.new(completed_date: completed_date)
+                        expect(new_item.completed_date_valid?).to be(true)
+                    end
+                end
+
+                context 'when completed_date is empty' do
+                    it 'is false' do
+                        new_item = Item.new(completed_date: nil)
+                        expect(new_item.completed_date_valid?).to be(false)
+                    end
+                end
+            end
+
+            describe '#due_date_valid?' do
+                let(:due_date) { '01/01/2018' }
+                context 'when due_date is not empty' do
+                    it 'is true' do
+                        new_item = Item.new(due_date: due_date)
+                        expect(new_item.due_date_valid?).to be(true)
+                    end
+                end
+
+                context 'when due_date is empty' do
+                    it 'is false' do
+                        new_item = Item.new(due_date: nil)
+                        expect(new_item.due_date_valid?).to be(false)
+                    end
+                end
+            end
         end
     end
 end
