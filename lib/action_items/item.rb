@@ -15,6 +15,9 @@ module ActionItems
             @completed_date = completed_date
         end
 
+        # Determine if an item isn't due
+        #
+        # @return [Boolean]
         def pending?
             completed_date.nil?
         end
@@ -26,6 +29,9 @@ module ActionItems
             !pending?
         end
 
+        # Determine if an item is overdue
+        #
+        # @return [Boolean]
         def overdue?
             if completed_date.nil?
                 if due_date # completed date = nil and due_date != nil
@@ -40,6 +46,37 @@ module ActionItems
                     return false
                 end
             end
+        end
+
+        # Ensure description, completed date
+        # and due date isn't nil
+        #
+        # @return [Boolean]
+        def valid?
+            description_valid? &&
+            completed_date_valid? &&
+            due_date_valid?
+        end
+
+        # Ensure description isn't nil
+        #
+        # @return [Boolean]
+        def description_valid?
+            !description.nil?
+        end
+
+        # Ensure completed date isn't nil
+        #
+        # @return [Boolean]
+        def completed_date_valid?
+            !completed_date.nil?
+        end
+
+        # Ensure due date isn't nil
+        #
+        # @return [Boolean]
+        def due_date_valid?
+            !due_date.nil?
         end
     end
 end
