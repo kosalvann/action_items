@@ -1,4 +1,7 @@
 module ActionItems
+    
+    require 'yaml'
+
     class Item
         attr_accessor :due_date
         attr_accessor :description
@@ -13,6 +16,8 @@ module ActionItems
             @due_date = due_date
             @description = description
             @completed_date = completed_date
+            
+            yamlFile = 'data.yaml'
         end
 
         # Determine if an item isn't due
@@ -77,6 +82,15 @@ module ActionItems
         # @return [Boolean]
         def due_date_valid?
             !due_date.nil?
+        end
+
+        # Save data to yaml
+        #
+        # @return
+        def save_data
+            yaml = File.open(yamlFile, 'w')
+            yaml.write hash.to_yaml
+            yaml.close
         end
     end
 end
